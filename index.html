@@ -5,6 +5,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Thêm thẻ link cho favicon -->
@@ -200,36 +201,113 @@
             font-size: 40px;
             margin-left: 20%;
         }
+        option{
+            font-weight: bold;
+        }
+        #excelFileInput{
+
+        }
+        #upload{
+            border-color: #f2f2f2;
+            width:fit-content;
+            border-width: 10px;
+            margin-bottom: 5px;
+        }
+        #fill-info-excel:hover{
+            cursor: pointer;
+            opacity: 0.3;
+        }
+        #fill-info{
+            background-color: orange;
+            color:blue;
+            
+            border-radius: 15px;
+        }
+        #fill-info:hover{
+            cursor: pointer;
+            opacity: 0.3;
+        }
+        #fill-info2{
+            background-color: greenyellow;
+            color: red;
+            border-radius: 15px;
+        }
+        #fill-info2:hover{
+            cursor: pointer;
+            opacity: 0.3;
+        }
     </style>
 </head>
 <body>
     <div id="tinhtienvadoitien">
     <div id="tinhTien">
     <h1 style="text-align: center;">TÍNH TIỀN HÀNG</h1>
+    <div id="upload">
+    <input type="file" id="excelFileInput" accept=".xlsx">
+    <button style="border-radius:15px"id="fill-info-excel">Apply file</button>
+    </div>
     <form id="productForm">
         <div class="form-group">
             <label for="productName">Tên hàng hoá:</label>
-            <input type="text" id="productName" required>
+            <input type="text" id="productName" list="productList" placeholder="Chọn hoặc nhập tên" required>
+                <datalist style="font-weight: bold;cursor: pointer;" id="productList">
+                <option value="Bánh mì nướng muối ớt">
+                <option value="Bánh mì chả cá">
+                <option value="Bánh mì trứng">
+                    <option value="Bánh mì thịt nướng">
+                    <option value="Xôi đùi gà">
+                    <option value="Xôi trứng">
+                    <option value="Xôi chả ruốc">
+                    <option value="Xôi thịt kho tàu">
+                    <option value="Xôi cá">
+                    <option value="Xôi thịt nướng">
+                    <option value="Xôi nem rán">
+                    <option value="Cơm thịt rang cháy cạnh">
+                    <option value="Cơm nem rán">
+                    <option value="Cơm sườn chua ngọt">
+                    <option value="Cơm cá nục sốt cà">
+                    <option value="Cơm cá thu kho dứa">
+                    <option value="Cơm cá ngừ sốt cà">
+                    <option value="cơm thịt cuốn lá lôt">
+                    <option value="Cơm thịt nướng">
+                    <option value="Cơm thịt kho tàu">
+                    <option value="Cơm rang dưa bò">
+                    <option value="Cơm rang Hải sản">
+                    <option value="Cơm tôm chiên">
+                    <option value="Cơm mực nhồi thịt sốt cà">
+                    <option value="Trà tắc">
+                    <option value="Cà phê">
+                    <option value="Trà vải">
+                    <option value="Giò lụa">
+                    <option value="Chân gà sốt thái">
+                    <option value="Bồ câu hầm hạt sen">
+                    <option value="Bún thái">
+                </datalist><br>
         </div>
-        
+        <button id="fill-info">Cập nhật giá đồ ăn<i class="fa-solid fa-utensils"></i></button>
+        <button id="fill-info2">Cập nhật giá đồ chợ<i class="fa-solid fa-store"></i></button><br>
         <div class="form-group">
             <label for="unit">Đơn vị tính (DVT):</label>
-            <input type="text" id="unit" required>
+            <input type="text" id="unit" required placeholder="Nhập đơn vị tính">
         </div>
         
         <div class="form-group">
             <label for="quantity">Số lượng:</label>
-            <input type="number" id="quantity" required>
+            <input type="number" id="quantity" placeholder="Nhập số lượng đơn hàng" >
+        </div>
+        <div class="form-group">
+            <label for="originalPrice">Giá gốc:</label>
+            <input type="number" id="originalPrice" placeholder="Nhập giá gốc" required>
         </div>
         
         <div class="form-group">
-            <label for="unitPrice">Đơn giá:</label>
-            <input type="number" id="unitPrice" required>
+            <label for="unitPrice">Giá bán:</label>
+            <input type="number" id="unitPrice"placeholder="Nhập giá bán" required>
         </div>
         
         <div class="form-group">
             <label for="discountPercentage">Chiết khấu (%):</label>
-            <input type="number" id="discountPercentage" required>
+            <input type="number" id="discountPercentage" placeholder="Nhập(Nếu có )" required>
         </div>
         
     </form>
@@ -255,7 +333,7 @@
         <h2 id="result">KẾT QUẢ : </h2>
     </div>
     <div id="Xuathoadon">
-    <button class="btn" id="xuat"type="button" onclick="exportInvoice()">Xuất hoá đơn ảnh <i class="fa-solid fa-image"></i></i> </button>
+    <button class="btn" id="xuat"type="button" onclick="exportInvoice()">XUẤT HOÁ DƠN <i class="fa-solid fa-image"></i></i> </button>
     <button class="btn" id="xuat-excel" type="button" onclick="exportToExcel()">Xuất hoá đơn Excel <i class="fa-solid fa-file-arrow-down"></i></button>
     <div   class="copy">
     <p style="color:aliceblue">STK: 19038905056016</p>
@@ -273,10 +351,12 @@
                 <th style="text-align: center;background-color:#00AE72;color: aliceblue; font-size: 20px;">Tên hàng hoá</th>
                 <th style="text-align: center;background-color:#00AE72;color: aliceblue; font-size: 20px;">DVT</th>
                 <th style="text-align: center;background-color:#00AE72;color: aliceblue; font-size: 20px;">Số lượng</th>
-                <th style="text-align: center;background-color:#00AE72;color: aliceblue; font-size: 20px;">Đơn giá</th>
+                <th style="text-align: center;background-color:#00AE72;color: aliceblue; font-size: 20px;">Giá gốc</th>
+                <th style="text-align: center;background-color:#00AE72;color: aliceblue; font-size: 20px;">Đơn bán</th>
                 <th style="text-align: center;background-color:#00AE72;color: aliceblue; font-size: 20px;">Thành tiền</th>
                 <th style="text-align: center;background-color:#00AE72;color: aliceblue; font-size: 20px;">Chiết khấu</th>
                 <th style="text-align: center;background-color:#00AE72;color: aliceblue; font-size: 20px;">Giá tiền sau chiết khấu</th>
+                <th style="text-align: center;background-color:#00AE72;color: aliceblue; font-size: 20px;">Lợi nhuận</th>
                 <th>CHỈNH SỬA</th>
             </tr>
         </thead>
@@ -284,16 +364,183 @@
         </tbody>
         <tfoot>
             <tr id="totalRow">
-                <td colspan="4" style="text-align: center;background-color:yellow">Tổng cộng:</td>
+                <td colspan="5" style="text-align: center;background-color:yellow">Tổng cộng:</td>
                 <td id="totalAmount" style="text-align: center;background-color:yellow"></td>
                 <td id="totalDiscount" style="text-align: center;background-color:yellow"></td>
                 <td id="totalNetAmount" style="text-align: center;background-color:yellow"></td>
+                <td id="totalProfit" style="text-align: center;background-color:yellow"></td>
             </tr>
         </tfoot>
         
     </table>
     
     <script>
+        document.getElementById("fill-info-excel").addEventListener("click", function () {
+    const excelFileInput = document.getElementById("excelFileInput");
+    const file = excelFileInput.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+
+            const productName = productNameInput.value;
+            const dvt = "DVT";
+            const giaGoc = "Giá Gốc";
+            const giaBan = "Giá bán";
+
+            for (let i = 2; ; i++) {
+                const productNameCell = sheet["A" + i];
+                if (!productNameCell || productNameCell.v !== productName) {
+                    break;
+                }
+
+                const dvtCell = sheet["B" + i];
+                const giaGocCell = sheet["C" + i];
+                const giaBanCell = sheet["D" + i];
+
+                dvtInput.value = dvtCell ? dvtCell.v : "";
+                giaGocInput.value = giaGocCell ? giaGocCell.v : "";
+                giaBanInput.value = giaBanCell ? giaBanCell.v : "";
+            }
+        };
+
+        reader.readAsArrayBuffer(file);
+        alert("Tải file thành công ! ")
+    } else {
+        alert("Vui lòng chọn tệp Excel để tải lên.");
+    }
+});
+
+//cập nahatj file đồ chợ
+const productNameInput2 = document.getElementById("productName");
+const dvtInput2 = document.getElementById("unit");
+const giaGocInput2 = document.getElementById("originalPrice");
+const giaBanInput2 = document.getElementById("unitPrice");
+const fillInfoButton2 = document.getElementById("fill-info2");
+
+fillInfoButton2.addEventListener("click", function() {
+    const productName = productNameInput2.value;
+
+    if (productName === "") {
+        alert("Vui lòng chọn một sản phẩm từ danh sách hoặc nhập tên sản phẩm.");
+        return;
+    }
+
+    const excelFileInput = document.getElementById("excelFileInput");
+
+    if (excelFileInput.files.length === 0) {
+        alert("Vui lòng tải lên tệp Excel trước.");
+        return;
+    }
+
+    const file = excelFileInput.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const data = e.target.result;
+            const workbook = XLSX.read(data, { type: "array" });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+
+            const range = sheet['!ref'];
+            const sheetData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+
+            // Tìm cột có tiêu đề "Tên hàng hoá"
+            const productNameColumnIndex = sheetData[0].indexOf("Tên hàng hoá");
+
+            if (productNameColumnIndex === -1) {
+                alert("Không tìm thấy cột có tiêu đề 'Tên hàng hoá' trong tệp Excel.");
+                return;
+            }
+
+            for (let i = 1; i < sheetData.length; i++) {
+                if (sheetData[i][productNameColumnIndex] === productName) {
+                    const dvtIndex = sheetData[0].indexOf("DVT");
+                    const giaGocIndex = sheetData[0].indexOf("Giá Gốc");
+                    const giaBanIndex = sheetData[0].indexOf("Giá bán");
+
+                    if (dvtIndex !== -1) {
+                        dvtInput2.value = sheetData[i][dvtIndex] || "";
+                    }
+
+                    if (giaGocIndex !== -1) {
+                        giaGocInput2.value = sheetData[i][giaGocIndex] || "";
+                    }
+
+                    if (giaBanIndex !== -1) {
+                        giaBanInput2.value = sheetData[i][giaBanIndex] || "";
+                    }
+
+                    return;
+                }
+            }
+
+            alert("Tên hàng hoá không tồn tại trong tệp Excel.");
+        };
+
+        reader.readAsArrayBuffer(file);
+    }
+});
+
+        // Điền các món có giá cố định ( cơm, đồ ăn vặt)
+        const productss = {
+            "Bánh mì nướng muối ớt": { dvt: "Phần", giaGoc: "75", giaBan: "150" },
+            "Bánh mì chả cá ": { dvt: "Phần", giaGoc: "75", giaBan: " 150 " },
+            "Bánh mì trứng ": { dvt: "Phần", giaGoc: "75", giaBan: "150"},
+            "Bánh mì thịt nướng": { dvt: "Phần", giaGoc: "75", giaBan: "150" },
+            "Xôi đùi gà ": { dvt: "Phần", giaGoc: "125", giaBan: "250" },
+            "Xôi trứng": { dvt: "Phần", giaGoc: "110", giaBan: "220" },
+            "Xôi chả ruốc": { dvt: "Phần", giaGoc: "115", giaBan: "230" },
+            "Xôi thịt kho tàu": { dvt: "Phần", giaGoc: "125", giaBan: "250"},
+            "Xôi cá": { dvt: "Phần", giaGoc: "125", giaBan: "250" },
+            "Xôi thịt nướng": { dvt: "Phần", giaGoc: "125", giaBan: "250 " },
+            "Xôi nem rán": { dvt: "Phần", giaGoc: "125", giaBan: "250" },
+            "Cơm thịt rang cháy cạnh": { dvt: "Phần", giaGoc: "130", giaBan: " 260" },
+            "Cơm nem rán": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+            "Cơm sườn chua ngọt": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+            "Cơm cá nục sốt cà": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+            "Cơm cá thu kho dứa": { dvt: "Phần", giaGoc: "150", giaBan: "300" },
+            "Cơm cá ngừ sốt cà": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+            "cơm thịt cuốn lá lôt": { dvt: "Phần", giaGoc: "130", giaBan: " 260" },
+            "Cơm thịt nướng": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+             "Cơm thịt kho tàu": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+            "Cơm rang dưa bò": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+           "Cơm rang Hải sản": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+            "Cơm tôm chiên": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+            "Cơm mực nhồi thịt sốt cà": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+            "Trà tắc": { dvt: "Phần", giaGoc: "60", giaBan: "120" },
+            "Cà phê": { dvt: "Phần", giaGoc: "60", giaBan: "120" },
+            "Trà vải": { dvt: "Phần", giaGoc: "60", giaBan: "120" },
+            "Giò lụa": { dvt: "Phần", giaGoc: "225", giaBan: "450" },
+            "Chân gà sốt thái": { dvt: "Phần", giaGoc: "125", giaBan: "250" },
+             "Bồ câu hầm hạt sen": { dvt: "Phần", giaGoc: "275", giaBan: "550" },
+             "Bún thái": { dvt: "Phần", giaGoc: "130", giaBan: "260" },
+        };
+
+        const productNameInput = document.getElementById("productName");
+const dvtInput = document.getElementById("unit");
+const giaGocInput = document.getElementById("originalPrice");
+const giaBanInput = document.getElementById("unitPrice");
+const fillInfoButton = document.getElementById("fill-info");
+
+fillInfoButton.addEventListener("click", function() {
+    const productName = productNameInput.value;
+    if (productss.hasOwnProperty(productName)) {
+        dvtInput.value = productss[productName].dvt;
+        giaGocInput.value = productss[productName].giaGoc;
+        giaBanInput.value = productss[productName].giaBan;
+    } else {
+        console.log("Tên hàng hoá không tồn tại trong danh sách!");
+    }
+});
+    
         const productForm = document.getElementById('productForm');
         const productTableBody = document.getElementById('productTableBody');
         const totalAmountElement = document.getElementById('totalAmount');
@@ -301,68 +548,97 @@
         const discountPercentageInput = document.getElementById('discountPercentage');
 
         let products = [];
-
+        let totalAmount = 0;
+        let totalDiscount = 0;
         function addProduct() {
-            const productName = document.getElementById('productName').value;
-            const unit = document.getElementById('unit').value;
-            const quantity = parseInt(document.getElementById('quantity').value);
-            const unitPrice = parseFloat(document.getElementById('unitPrice').value);
-            const discountPercentage = parseFloat(discountPercentageInput.value);
+    const productName = document.getElementById('productName').value;
+    const unit = document.getElementById('unit').value;
+    const quantity = parseFloat(document.getElementById('quantity').value); // Chuyển đổi thành số
+    const unitPrice = parseFloat(document.getElementById('unitPrice').value); // Chuyển đổi thành số
+    const discountPercentage = parseFloat(discountPercentageInput.value); // Chuyển đổi thành số
+    const originalPrice = parseFloat(document.getElementById('originalPrice').value); // Chuyển đổi thành số
+    const profit = (unitPrice - originalPrice) * quantity;
+    const totalPrice = quantity * unitPrice;
+    const discount = (totalPrice * discountPercentage) / 100;
+    const product = {
+        name: productName,
+        unit: unit,
+        quantity: quantity,
+        unitPrice: unitPrice,
+        totalPrice: totalPrice,
+        discount: discount,
+        originalPrice: originalPrice,
+        profit: profit
+    };
 
-            const totalPrice = quantity * unitPrice;
-            const discount = (totalPrice * discountPercentage) / 100;
-            const product = {
-                name: productName,
-                unit: unit,
-                quantity: quantity,
-                unitPrice: unitPrice,
-                totalPrice: totalPrice,
-                discount: discount
-            };
-             // Cập nhật tổng tiền và tổng chiết khấu
-                totalAmount += product.totalPrice;
-                totalDiscount += product.discount;
-            if (!productName ||  isNaN(quantity) || isNaN(unitPrice) ) {
-                alert("Vui lòng điền đầy đủ thông tin.");
-                return;
-            }
-            products.push(product);
+    // Cập nhật tổng tiền và tổng chiết khấu
+    totalAmount += product.totalPrice;
+    totalDiscount += product.discount;
 
-            renderTable();
-            clearForm();
-        }
+    if (isNaN(quantity) || isNaN(unitPrice)) {
+        alert("Vui lòng điền đầy đủ thông tin với giá trị số.");
+        return;
+    }
 
-        function renderTable() {
-    productTableBody.innerHTML = '';
-    let totalAmount = 0;
-    let totalDiscount = 0;
-    parseFloat(totalAmount);
-    parseFloat(totalDiscount);
+    products.push(product);
+    calculateTotal()
+    renderTable();
+    clearForm();
+}
 
-    products.forEach((product, index) => {
+
+function calculateTotal() {
+    totalAmount = 0;
+    totalDiscount = 0;
+
+    products.forEach((product) => {
         totalAmount += product.totalPrice;
         totalDiscount += product.discount;
+    });
+
+    const totalAmountElement = document.getElementById('totalAmount');
+    const totalDiscountElement = document.getElementById('totalDiscount');
+    
+    totalAmountElement.textContent = totalAmount.toLocaleString();
+    totalDiscountElement.textContent = totalDiscount.toLocaleString();
+    
+    // Cập nhật tổng lợi nhuận, giá tiền sau chiết khấu, hoặc bất kỳ thông tin khác mà bạn muốn hiển thị.
+}
+
+        function renderTable() {
+            productTableBody.innerHTML = '';
+            let totalProfit = 0;
+            totalAmountElement.textContent = totalAmount.toLocaleString();
+            totalDiscountElement.textContent = totalDiscount.toLocaleString();
+
+            products.forEach((product, index) => {
+                totalProfit += product.profit;
+                
 
         const row = document.createElement('tr');
         row.innerHTML = `
             <td style="text-align: center;background-color: aliceblue; font-weight: bold;">${product.name}</td>
             <td style="text-align: center;background-color: aliceblue;font-weight: bold;">${product.unit}</td>
             <td style="text-align: center;background-color: aliceblue;font-weight: bold;">${product.quantity.toLocaleString()}</td>
+            <td style="text-align: center;background-color: aliceblue; font-weight: bold;">${product.originalPrice.toLocaleString()}</td>
             <td style="text-align: center;background-color: aliceblue;font-weight: bold;">${product.unitPrice.toLocaleString()}</td>
             <td style="text-align: center;background-color: aliceblue;font-weight: bold;">${product.totalPrice.toLocaleString()}</td>
             <td style="text-align: center;background-color: aliceblue;font-weight: bold;">${product.discount.toLocaleString()}</td>
             <td style="text-align: center;background-color: aliceblue;font-weight: bold;">${(product.totalPrice - product.discount).toLocaleString()}</td>
+            <td style="text-align: center;background-color: aliceblue; font-weight: bold;">${product.profit.toLocaleString()}</td>
             <td>
                 <button id='thaotacsua' type="button" onclick="editProduct(${index})">Chỉnh sửa</button>
                 <button id='thaotacxoa' type="button" onclick="deleteProduct(${index})">Xoá</button>
             </td>
         `;
+        
         productTableBody.appendChild(row);
     });
 
     totalAmountElement.textContent = totalAmount.toLocaleString();
     totalDiscountElement.textContent = totalDiscount.toLocaleString();
-
+    const totalProfitElement = document.getElementById('totalProfit');
+            totalProfitElement.textContent = totalProfit.toLocaleString();
     // Tính tổng cộng giá tiền bằng cách trừ tổng cộng chiết khấu
     const totalNetAmountElement = document.getElementById('totalNetAmount');
     const totalNetAmount = totalAmount - totalDiscount;
@@ -380,11 +656,13 @@
             discountPercentageInput.value = (product.discount / (product.totalPrice / 100)).toLocaleString();
 
             products.splice(index, 1);
+            calculateTotal()
             renderTable();
         }
 
         function deleteProduct(index) {
             products.splice(index, 1);
+            calculateTotal()
             renderTable();
         }
 
@@ -415,7 +693,11 @@ const currentTime = `${hours}:${minutes} - ${day}/${month}/${year}`;
             let name =prompt("Nhập tên khách hàng");
             let diachi = prompt("Nhập địa chỉ khách hàng");
             let phone=prompt("Nhập số điện thoại khách hàng");
-            const guess= `${name};${diachi};${phone}`;
+            let shipperName=prompt("Nhập tên Shipper");
+            let teleShipper=prompt("Nhập thông tin liên lạc Shipper");
+            let fee=prompt('Nhập tiền ship')
+            const guess= `${name};${diachi} ;${phone}`;
+            const shipper= `${shipperName} ; ${teleShipper}`;
     // Tạo một chuỗi HTML để chứa thông tin hoá đơn
     let invoiceHTML = `
     <h1 style="text-align: center;"><b>✪✪✪✪✪SIÊU THỊ VIỆT PHI 24/7✪✪✪✪✪</b></h1>
@@ -425,6 +707,7 @@ const currentTime = `${hours}:${minutes} - ${day}/${month}/${year}`;
     <h7><b>❖Tele: @goshopping084</b></h7></br>
     <h7><b>❖Time: ${currentTime}</b></h7></br>
     <h7><b>Guess Info: ${guess}</b></h7></br>
+    <h7><b>SHIPPER INFO: ${shipper}</b></h7></br>
 </div>
     
 </div>
@@ -467,15 +750,20 @@ const currentTime = `${hours}:${minutes} - ${day}/${month}/${year}`;
     </tbody>
     <tfoot style="text-align: center;">
         <tr style="text-align: center;">
-            <td style="text-align: center;" colspan="4" class="total-cell"><b>Tổng cộng:</b></td>
-            <td style="text-align: center;" class="total-cell"><b>${totalAmountElement.textContent}</b></td>
-            <td style="text-align: center;" class="total-cell"><b>${totalDiscountElement.textContent}</b></td>
-            <td style="text-align: center;" class="total-cell"><b></b></td>
+            <td style="text-align: center;" colspan="4" class="total-cell"><b>TỔNG CỘNG:</b></td>
+            <td style="text-align: center;" colspan="3"class="total-cell"><b>${totalAmountElement.textContent}</b></td>
+        
+        
+        </tr>
+        <tr style="text-align: center;">
+            <td style="text-align: center;" colspan="4" class="total-cell"><b>PHÍ SHIP</b></td>
+            <td style="text-align: center;" colspan="3" class="total-cell"><b>${fee}</b></td>
         </tr>
     </tfoot>
 </table>
 <h3 style="text-align: center;"><b>***CẢM ƠN VÀ HẸN GẶP LẠI QUÝ KHÁCH***</b></h3>
 `;
+// in cho chủ
 
         
     // Tạo cửa sổ mới và hiển thị thông tin hoá đơn
@@ -607,6 +895,7 @@ copyElements.forEach((element) => {
         alert('ĐÃ SAO CHÉP THÔNG TIN');
     });
 });
+
     </script>
 </body>
 </html>
